@@ -9,5 +9,6 @@ export const AppContainer = styled.main`
 
   * {
     font-family: "Open Sans";
+    box-sizing: border-box;
   }
 `;
