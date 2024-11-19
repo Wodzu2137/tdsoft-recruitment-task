@@ -3,27 +3,55 @@ import { AppDataContext } from "../../contexts/AppData.context";
 import {
   CharacterWidgetContainer,
   CharacterStatusLabel,
-  CharacterAvatar
+  CharacterAvatar,
+  CharacterContentHolder,
+  CharacterInfo,
+  CharacterDataElement,
+  ErrorInfo
 } from "./CharacterWidget.styled";
 
 const CharacterWidget: React.FC = () => {
-  const { character } = useContext(AppDataContext);
+  const { character, isLoading } = useContext(AppDataContext);
 
-  if (!character) return null;
   return (
     <CharacterWidgetContainer>
-      <div>
-        <p>Name: {character.name}</p>
+      {
+        isLoading ?
+          <ErrorInfo>Loading...</ErrorInfo>
+          :
+          character ?
+            <>
+              <CharacterStatusLabel isAlive={character.status}>
+                <span>{character.name}</span>
+              </CharacterStatusLabel>
 
-        <p>
-          Status:{" "}
-          <CharacterStatusLabel isAlive={character.status === "Alive"}>
-            {character.status}
-          </CharacterStatusLabel>
-        </p>
-      </div>
+              <CharacterContentHolder>
+                <CharacterInfo>
+                  <CharacterDataElement>
+                    <span>id</span>
+                    <span>#{character.id}</span>
+                  </CharacterDataElement>
+                  <CharacterDataElement>
+                    <span>status</span>
+                    <span>{character.status}</span>
+                  </CharacterDataElement>
+                  <CharacterDataElement>
+                    <span>gender</span>
+                    <span>{character.gender}</span>
+                  </CharacterDataElement>
+                  <CharacterDataElement>
+                    <span>episodes</span>
+                    <span>{character.episodes}</span>
+                  </CharacterDataElement>
+                </CharacterInfo>
+                <CharacterAvatar src={character.imageUrl} alt="Character avatar" />
+              </CharacterContentHolder>
+            </>
+            :
+            <ErrorInfo>An error occured... try again later.</ErrorInfo>
+      }
 
-      <CharacterAvatar src={character.imageUrl} alt="Character avatar" />
+
     </CharacterWidgetContainer>
   );
 };
