@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useMemo, SetStateAction, Dispatch } from "react";
-import ky, { ResponsePromise } from "ky";
+import ky from "ky";
 import { API_URL } from "../config";
 import type { Character } from "../types/RickAndMorty.types";
 
@@ -44,7 +44,6 @@ export const AppDataContextProvider = ({ children }: React.PropsWithChildren) =>
     (async () => {
 
       //If the ID is incorrect, don't do anything
-      if (!currentId) return
       if (currentId < 1 || currentId > 826) return
       
       setIsLoading(true)
